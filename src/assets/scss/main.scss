@@ -1,0 +1,156 @@
+* {
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+@mixin offset-margin($margin, $value){
+  margin-#{$margin}: $value;
+}
+
+@for $i from 1 through 20 {
+  @each $margin in top, left, bottom, right {
+
+    .offset-#{$margin}-#{$i}{
+      @include offset-margin($margin, 1rem * $i)
+    }
+
+  }
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+main {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+body {
+  min-height: 100%;
+  margin: 0px;
+}
+
+html, body, #app, main {
+  height: 100%;
+}
+
+button {
+  border: none;
+}
+
+.btn {
+  display: inline-block;
+  padding: 3px 7px;
+  cursor: pointer;
+  border-radius: 5px;
+  background: $grey7;
+  color: $grey6;
+  margin-right: 15px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+
+  &_big {
+    font-size: 20px;
+  }
+
+  &_selected {
+    background: $grey4;
+  }
+
+  &:disabled, &_disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}
+
+.btns-container {
+  text-align: left;
+  .btn {
+    margin-bottom: 10px;
+  }
+
+  &_space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_left {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.title {
+  font-size: 20px;
+  color: $white;
+}
+
+.text {
+  color: $white;
+}
+
+.block {
+  margin-bottom: 30px;
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}
+
+.color_white {
+  color: $white;
+}
+
+.color_red {
+  color: $red;
+}
+
+.color_green {
+  color: $green;
+}
+
+.characteristic {
+  &_normal {
+    color: $white;
+  }
+  &_better {
+    color: $green2;
+  }
+  &_worse {
+    color: $red;
+  }
+  &_like_before {
+    color: $orange;
+  }
+}
+
+.align {
+  &_left {
+    text-align: left;
+  }
+}
+
+.effect {
+  text-align: left;
+  &_buff {
+    color: $green2;
+  }
+  &_debuff {
+    color: $red;
+  }
+  &_mixed {
+    color: $orange;
+  }
+}
