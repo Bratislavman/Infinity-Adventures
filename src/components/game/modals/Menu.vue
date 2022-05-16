@@ -41,7 +41,7 @@ export default {
       this.$store.commit(MUTATION_GAME_RESTART);
     },
     showFaq() {
-      this.game.modalFaq = true;
+      this.game.modalInfo = this.game.getModalInfo();
     },
     showMissions() {
       this.game.modalMissions = true;

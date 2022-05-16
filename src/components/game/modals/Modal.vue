@@ -67,7 +67,7 @@ export default {
   .title {
     color: $white0;
     margin-bottom: 30px;
-    font-size: 18px;
+    font-size: 24px;
   }
 
   .content {

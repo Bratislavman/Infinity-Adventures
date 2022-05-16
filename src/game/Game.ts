@@ -50,7 +50,7 @@ export class Game {
     modalActionsList: any = [];
     modalLocationGameObjects: any = [];
     modalSelectTargets: any = null;
-    modalFaq: boolean = false;
+    modalInfo: any = null;
     modalMenu: boolean = false;
     modalMissions: boolean = false;
     modalEndGame: any = null;
@@ -147,7 +147,7 @@ export class Game {
         this.modalActionsList = [];
         this.modalLocationGameObjects = [];
         this.modalSelectTargets = null;
-        this.modalFaq = false;
+        this.modalInfo = null;
         this.modalMissions = false;
         this.modalMenu = false;
         this.modalEndGame = null;
@@ -651,5 +651,22 @@ export class Game {
             modalGameObjectInfo.isCharacter = true;
         }
         this.modalGameObjectInfo = modalGameObjectInfo;
+    }
+
+    getModalInfo(): any {
+        return {
+            title: 'Faq',
+            texts: [
+                {title: 'help.punct1.title', text: 'help.punct1.text'},
+                {title: 'help.punct2.title', text: 'help.punct2.text'},
+                {title: 'help.punct3.title', text: 'help.punct3.text'},
+                {title: 'help.punct4.title', text: 'help.punct4.text'},
+                {title: 'help.punct5.title', text: 'help.punct5.text'},
+                {title: 'help.punct6.title', text: 'help.punct6.text'},
+                {title: 'help.punct7.title', text: 'help.punct7.text'},
+                {title: 'help.punct8.title', text: 'help.punct8.text'},
+                {title: 'help.punct9.title', text: 'help.punct9.text'},
+            ]
+        }
     }
 }

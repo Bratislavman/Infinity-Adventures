@@ -39,7 +39,7 @@
 
     <action-list/>
     <game-object-info/>
-    <faq/>
+    <info/>
     <modal-menu/>
     <missions/>
     <location-game-objects/>
@@ -56,7 +56,7 @@ import ActionList from "@/components/game/modals/ActionList";
 import GameObjectInfo from "@/components/game/modals/GameObjectInfo";
 import LocationGameObjects from "@/components/game/modals/LocationGameObjects";
 import SelectTargets from "@/components/game/modals/SelectTargets";
-import Faq from "@/components/game/modals/Faq";
+import Info from "@/components/game/modals/Info";
 import ModalMenu from "@/components/game/modals/Menu";
 import Missions from "@/components/game/modals/Missions";
 import EndGame from "@/components/game/modals/EndGame";
@@ -72,7 +72,7 @@ export default {
     GameObjectInfo,
     LocationGameObjects,
     SelectTargets,
-    Faq,
+    Info,
     ModalMenu,
     Missions,
     EndGame,
