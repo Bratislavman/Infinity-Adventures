@@ -1,6 +1,6 @@
 <template>
   <modal v-if="modalInfo" class="modal-info" :title="modalInfo.title" :visible="visible" :close="close">
-    <block-with-title v-for="obj in modalInfo.texts" :key="obj.title" :title="$t(obj.title)">
+    <block-with-title v-for="(obj, i) in modalInfo.texts" :key="i" :title="$t(obj.title)">
       <div class="text">{{ $t(obj.text) }}</div>
     </block-with-title>
   </modal>

@@ -1,18 +1,11 @@
 <template>
-  <div :id="'location'+location.id" :class="classes">
+  <div :id="'location'+location.id" :class="classes" @click="handlerLocation">
     <my-scroll ref="vs" :ops="ops">
-      <span v-for="obj in objectLocations" :key="obj.id + obj.icon" @click="handlerGameObject(obj)">
-        <game-img :class="classesObject(obj)"
-                  :obj="obj"
-
-        />
+      <span v-for="obj in objectLocations" :key="obj.id + obj.icon">
+        <game-img :class="classesObject(obj)" :obj="obj"/>
       </span>
     </my-scroll>
-    <button class="location__btn btn" :disabled="!location.btnText" @click="handlerLocation">
-      <template v-if="location.btnText">
-        {{ location.btnText }}
-      </template>
-    </button>
+    <button v-if="isCanGo" class="location__btn btn" @click.prevent.stop="moveHeroToLocation">{{ $t('go') }}</button>
   </div>
 </template>
 
@@ -35,6 +28,8 @@ export default {
     return {
       nearestLocationsIds: [],
       objectLocations: [],
+      currentHero: null,
+      isCanGo: false,
       ops: {
         scrollPanel: {
           scrollingX: false,
@@ -47,16 +42,14 @@ export default {
   },
   computed: {
     classes() {
-      const isNearestLocation = this.nearestLocationsIds.find((id) => this.location.id === id);
-      const currentHero = this.game.currentHero();
-      if (currentHero) {
+      if (this.currentHero) {
         return {
           'location': true,
           'location_empty': this.location instanceof LocationEmpty,
           'location_explored': this.location.isOpen,
           'location_unexplored': !this.location.isOpen,
-          'location_can-go': Boolean(isNearestLocation),
-          'location_current-hero': currentHero.locationId === this.location.id,
+          'location_can-go': this.isCanGo && this.currentHero.movePoints > 0,
+          'location_current-hero': this.currentHero.locationId === this.location.id,
         }
       }
       return {'location_loss': true, 'location': true};
@@ -64,11 +57,13 @@ export default {
   },
   methods: {
     updateData() {
-      this.nearestLocationsIds = this.game.getNearestLocationsIds();
+      this.currentHero = this.game.currentHero();
+      this.nearestLocationsIds = this.game.getNewHeroNearestLocationsIds();
       this.objectLocations = this.game.getLocationGameObjects(this.location);
+      this.isCanGo = this.game.isNearestLocation(this.location.id);
     },
     classesObject(obj) {
-      const currentHero = this.game.currentHero();
+      const currentHero = this.currentHero;
       if (currentHero) {
         return {
           'location__object': true,
@@ -82,9 +77,8 @@ export default {
     handlerLocation() {
       this.game.handlerLocation(this.location.id);
     },
-    handlerGameObject(gameObj) {
-      console.log(345345);
-      this.game.handlerGameObject(gameObj.id);
+    moveHeroToLocation() {
+      this.game.moveHeroToLocation(this.location.id);
     },
   }
 }
@@ -168,11 +162,15 @@ export default {
   }
 
   &_can-go {
-    background: $green;
+    background: $green3;
   }
 
   &_empty {
     background: transparent;
   }
+}
+
+.location_unexplored.location_can-go {
+  background: $green;
 }
 </style>

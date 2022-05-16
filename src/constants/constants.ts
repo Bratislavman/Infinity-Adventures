@@ -52,6 +52,15 @@ export type CharacteristicType = {
     status: CharacteristicStatusType,
 };
 
+export type ModalInfoTextType = {
+    title: string,
+    text: string,
+};
+export type ModalInfoType = {
+    title?: string,
+    texts: ModalInfoTextType[],
+};
+
 export type CharacteristicModificatorType = {
     value: number,
     haveModification: boolean,

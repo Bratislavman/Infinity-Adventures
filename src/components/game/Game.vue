@@ -8,9 +8,6 @@
           </template>
         </div>
         <div class="main-btns">
-          <div @click="moveHero" :class="moveIcon.classes">
-            <img class="icon" :src="moveIcon.img"/>
-          </div>
           <div @click="endTurn" class="main-btn end-turn-btn">
             <img class="icon" src="@/assets/images/end_turn.jpg"/>
           </div>
@@ -110,17 +107,8 @@ export default {
       if (this.currentHero) {
         this.locations = this.game.currentZoneLocations();
         this.heroes = this.game.getHeroes();
-
-        this.moveIcon = {
-          img: this.game.moveHeroMode ? require('@/assets/images/hero_move.jpg') : require('@/assets/images/hero_move2.jpg'),
-          classes: 'main-btn move-hero-btn ' + (this.currentHero.movePoints === 0 ? 'btn_disabled' : ''),
-        };
-
         this.scrollIntoView();
       }
-    },
-    moveHero() {
-      this.game.setMoveHeroMode();
     },
     endTurn() {
       this.game.endHeroTurn();

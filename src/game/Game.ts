@@ -13,7 +13,7 @@ import {
     CharacterBehaviorTypes,
     EquipmentActivType,
     FunctionOrNullType,
-    HP_MAX,
+    HP_MAX, ModalInfoType,
     MOVE_POINTS_MAX,
     SpellOrItemType, StatusGameCondition, StatusGameConditionStatus,
 } from "@/constants/constants";
@@ -40,7 +40,6 @@ export class Game {
     heroes: Character[] = [];
     messages: string[] = [];
     currentHeroId: number = 0;
-    moveHeroMode: boolean = false;
     locationsIdsForMoveHero: number[] = [];
     //каунтер для айдишек всех создаваемых cущностей игры
     idsCounter: number = 0;
@@ -60,7 +59,7 @@ export class Game {
         this.name = name;
         this.description = description;
         this.background = background;
-        this.gameTimerId = setInterval(() => this.watcherGameStatus(), 1000);
+        this.gameTimerId = setInterval(() => this.watcherGameStatus(), 500);
     }
 
     getMissions(): StatusGameCondition[] {
@@ -104,7 +103,7 @@ export class Game {
             if (this.statusGameConditionVictory.length > 0 && this.statusGameConditionDefeat.length > 0) {
                 this.statusGameConditionDefeat.find(obj => {
                     if (obj.status === StatusGameConditionStatus.Success) {
-                        throw 'GameOver';
+                        throw false;
                     }
                 })
 
@@ -112,13 +111,15 @@ export class Game {
                     return obj.status === StatusGameConditionStatus.Success ? prev + 1 : prev;
                 }, 0);
                 if (successQuestsCount === this.statusGameConditionVictory.length) {
-                    this.gameEnd(true);
+                    throw true;
                 } else {
                     this.watcherGameStatusAddQuestions();
                 }
+
+                this.collectHeroNearestLocationsIds();
             }
-        } catch (ev) {
-            this.gameEnd();
+        } catch (gameOverOrVictory) {
+            this.gameEnd(gameOverOrVictory);
         }
     }
 
@@ -164,7 +165,7 @@ export class Game {
     }
 
     removeGameObject(obj: GameObject) {
-        Game.game.gameObjects =  Game.game.gameObjects.filter(obj2 => obj2.id !== obj.id);
+        Game.game.gameObjects = Game.game.gameObjects.filter(obj2 => obj2.id !== obj.id);
     }
 
     removeItemsAndSpells(objId: number) {
@@ -350,7 +351,20 @@ export class Game {
         }
     }
 
-    endHeroTurn(): void {
+    startHeroTurn() {
+        const currHero = this.currentHero();
+
+        if (currHero) {
+            const heroIndex = this.heroes.findIndex((h) => h.id === currHero.id);
+            this.currentHeroId = this.heroes[heroIndex + 1].id;
+            const currHeroNew = this.currentHero();
+            if (currHeroNew) {
+                currHeroNew.startTurn();
+            }
+        }
+    }
+
+    endHeroTurn() {
         this.clearMoveHeroMode();
 
         const currHero = this.currentHero();
@@ -369,12 +383,7 @@ export class Game {
             if (turnHeroesCount === this.heroes.length) {
                 this.npcTurns();
             } else {
-                const heroIndex = this.heroes.findIndex((h) => h.id === currHero.id);
-                this.currentHeroId = this.heroes[heroIndex + 1].id;
-                const currHeroNew = this.currentHero();
-                if (currHeroNew) {
-                    currHeroNew.startTurn();
-                }
+                this.startHeroTurn();
             }
         }
     }
@@ -392,87 +401,99 @@ export class Game {
         return -1;
     }
 
-    setMoveHeroMode(): void {
+    getNewHeroNearestLocationsIds(): number[] {
+        return this.locationsIdsForMoveHero;
+    }
+
+    collectHeroNearestLocationsIds() {
+        this.locationsIdsForMoveHero = [];
         const currHero = this.currentHero();
         if (currHero && currHero.movePoints > 0) {
-            this.moveHeroMode = !this.moveHeroMode;
-            if (this.moveHeroMode) {
-                let x = -1;
-                let y = -1;
-                let lX = -1;
-                const locations = this.currentZoneLocations();
-                locations.forEach((lRow, lY) => {
-                    lX = lRow.findIndex(l => l.id === currHero.locationId);
-                    if (lX > -1) {
-                        x = lX;
-                        y = lY;
-                    }
-                })
-                if (x > -1 && y > -1 && locations[y] && locations[y][x]) {
-                    //locationLeft
-                    const leftId = this.addNearestLocation(x, y, -1);
-                    //locationUp
-                    const upId = this.addNearestLocation(x, y, 0, -1);
-                    //locationDown
-                    const downId = this.addNearestLocation(x, y, 0, 1);
-                    //locationRight
-                    const rightId = this.addNearestLocation(x, y, 1);
+            let x = -1;
+            let y = -1;
+            let lX = -1;
+            const locations = this.currentZoneLocations();
+            locations.forEach((lRow, lY) => {
+                lX = lRow.findIndex(l => l.id === currHero.locationId);
+                if (lX > -1) {
+                    x = lX;
+                    y = lY;
+                }
+            })
+            if (x > -1 && y > -1 && locations[y] && locations[y][x]) {
+                //locationLeft
+                const leftId = this.addNearestLocation(x, y, -1);
+                //locationUp
+                const upId = this.addNearestLocation(x, y, 0, -1);
+                //locationDown
+                const downId = this.addNearestLocation(x, y, 0, 1);
+                //locationRight
+                const rightId = this.addNearestLocation(x, y, 1);
 
-                    if (leftId > -1 && upId > -1) {
-                        //locationLeftUp
-                        this.addNearestLocation(x, y, -1, -1);
-                    }
-                    if (leftId > -1 && downId > -1) {
-                        //locationLeftDown
-                        this.addNearestLocation(x, y, -1, 1);
-                    }
-                    if (rightId > -1 && upId > -1) {
-                        //locationRightUp
-                        this.addNearestLocation(x, y, 1, -1);
-                    }
-                    if (rightId > -1 && downId > -1) {
-                        //locationRightDown
-                        this.addNearestLocation(x, y, 1, 1);
-                    }
+                if (leftId > -1 && upId > -1) {
+                    //locationLeftUp
+                    this.addNearestLocation(x, y, -1, -1);
+                }
+                if (leftId > -1 && downId > -1) {
+                    //locationLeftDown
+                    this.addNearestLocation(x, y, -1, 1);
+                }
+                if (rightId > -1 && upId > -1) {
+                    //locationRightUp
+                    this.addNearestLocation(x, y, 1, -1);
+                }
+                if (rightId > -1 && downId > -1) {
+                    //locationRightDown
+                    this.addNearestLocation(x, y, 1, 1);
                 }
             }
-        }
-        if (!this.moveHeroMode) {
-            this.locationsIdsForMoveHero = [];
+
         }
     }
 
     clearMoveHeroMode(): void {
         this.locationsIdsForMoveHero = [];
-        this.moveHeroMode = false;
+    }
+
+    isNearestLocation(locationId: number) {
+        const isNearestLocation = this.getNewHeroNearestLocationsIds().find((id) => locationId === id);
+        return Boolean(isNearestLocation);
     }
 
     handlerLocation(locationId: number) {
         const location = this.getLocation(locationId);
         if (location) {
-            if (this.moveHeroMode) {
-                //передвижение
-                const nearestLocationId: number | undefined = this.locationsIdsForMoveHero.find((id) => location.id === id);
-                if (nearestLocationId) {
-                    const currHero = this.currentHero();
-                    if (currHero) {
-                        this.characterMove(currHero.id, location.id, true);
-                        this.clearMoveHeroMode();
-                        this.endHeroTurnWithCheckEndPoints();
-                    }
-                }
-            } else if (location.isOpen) {
+            if (location.isOpen) {
                 this.modalLocationGameObjects = {location, objs: this.getLocationGameObjects(location)};
+            } else {
+                let title = 'location.not_open.far.title';
+                let text = 'location.not_open.far.text';
+                if (this.isNearestLocation(locationId)) {
+                    title = 'location.not_open.nearest.title';
+                    text = 'location.not_open.nearest.text';
+                }
+                this.modalInfo = {
+                    texts: [
+                        {title, text}
+                    ]
+                };
             }
         }
     }
 
-    handlerGameObject(gameObjId: number): void {
-        console.log(gameObjId, ' handlerGameObject');
-        // const gameObj = this.getGameObjectById(gameObjId);
-        // if (gameObj) {
-        //
-        // }
+    moveHeroToLocation(locationId: number) {
+        const location = this.getLocation(locationId);
+        if (location) {
+            const nearestLocationId: number | undefined = this.locationsIdsForMoveHero.find((id) => location.id === id);
+            if (nearestLocationId) {
+                const currHero = this.currentHero();
+                if (currHero) {
+                    this.characterMove(currHero.id, location.id, true);
+                    this.clearMoveHeroMode();
+                    this.endHeroTurnWithCheckEndPoints();
+                }
+            }
+        }
     }
 
     //список действий тек героя с текущим объектом
@@ -504,10 +525,6 @@ export class Game {
         }
 
         return [];
-    }
-
-    getNearestLocationsIds(): number[] {
-        return this.locationsIdsForMoveHero;
     }
 
     getLocationGameObjects(location: Location): GameObject[] {
@@ -664,7 +681,7 @@ export class Game {
         this.modalGameObjectInfo = modalGameObjectInfo;
     }
 
-    getModalInfo(): any {
+    getModalInfo(): ModalInfoType {
         return {
             title: 'Faq',
             texts: [
