@@ -1,6 +1,6 @@
 <template>
   <div :id="'location'+location.id" :class="classes" @click="handlerLocation(location)">
-    <game-img :class="classesObject(obj)" v-for="obj in objectLocations" :key="obj.constructor.name + obj.id + Math.random()"
+    <game-img :class="classesObject(obj)" v-for="obj in objectLocations" :key="obj.id + obj.img"
               :obj="obj"/>
   </div>
 </template>
