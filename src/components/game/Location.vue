@@ -1,43 +1,51 @@
 <template>
-  <div :id="'location'+location.id" :class="classes" @click="handlerLocation(location)">
-    <game-img :class="classesObject(obj)" v-for="obj in objectLocations" :key="obj.id + obj.img"
-              :obj="obj"/>
+  <div :id="'location'+location.id" :class="classes">
+    <my-scroll ref="vs" :ops="ops">
+      <span v-for="obj in objectLocations" :key="obj.id + obj.icon" @click="handlerGameObject(obj)">
+        <game-img :class="classesObject(obj)"
+                  :obj="obj"
+
+        />
+      </span>
+    </my-scroll>
+    <button class="location__btn btn" :disabled="!location.btnText" @click="handlerLocation">
+      <template v-if="location.btnText">
+        {{ location.btnText }}
+      </template>
+    </button>
   </div>
 </template>
 
 <script>
-import {LocationEmpty} from "@/game/location/LocationEmpty";
-import {GET_GAME} from "@/store/game.js";
 import GameImg from "@/components/game/GameImg";
+import Scroller from "@/components/game/Scroller";
+import {LocationEmpty} from "@/game/location/LocationEmpty";
 import {CharacterBehaviorTypes} from "@/constants/constants";
+import {GameWatcher} from "@/mixins/GameWatcher";
 
 export default {
   name: 'Location',
-  props: ['location', 'handlerLocation'],
+  props: ['location'],
+  mixins: [GameWatcher],
   components: {
     GameImg,
+    Scroller,
   },
   data() {
     return {
       nearestLocationsIds: [],
       objectLocations: [],
+      ops: {
+        scrollPanel: {
+          scrollingX: false,
+        },
+        vuescroll: {
+          mode: 'native'
+        }
+      },
     }
-  },
-  watch: {
-    game: {
-      deep: true,
-      handler() {
-        this.updateData();
-      }
-    }
-  },
-  created() {
-    this.updateData();
   },
   computed: {
-    game() {
-      return this.$store.getters[GET_GAME];
-    },
     classes() {
       const isNearestLocation = this.nearestLocationsIds.find((id) => this.location.id === id);
       const currentHero = this.game.currentHero();
@@ -51,7 +59,7 @@ export default {
           'location_current-hero': currentHero.locationId === this.location.id,
         }
       }
-      return { 'location_loss': true, 'location': true };
+      return {'location_loss': true, 'location': true};
     },
   },
   methods: {
@@ -69,7 +77,14 @@ export default {
           'location__object_enemy': obj.behaviorType === CharacterBehaviorTypes.Combat,
         }
       }
-     return {'location__object': true };
+      return {'location__object': true};
+    },
+    handlerLocation() {
+      this.game.handlerLocation(this.location.id);
+    },
+    handlerGameObject(gameObj) {
+      console.log(345345);
+      this.game.handlerGameObject(gameObj.id);
     },
   }
 }
@@ -78,16 +93,27 @@ export default {
 <style lang="scss">
 .location {
   width: 150px;
-  height: 150px;
+  height: calc(150px - 1px);
   background: $grey3;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
   margin: 1px;
+  padding: 2px;
+  padding-bottom: 25px;
   border-radius: 5px;
   cursor: pointer;
-  overflow: auto;
+  position: relative;
+
+  &__btn {
+    background: $black0;
+    color: $white;
+    height: 25px;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0px;
+  }
 
   &::-webkit-scrollbar {
     width: 10px;

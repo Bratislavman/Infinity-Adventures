@@ -447,21 +447,32 @@ export class Game {
         this.moveHeroMode = false;
     }
 
-    handlerLocation(location: Location): void {
-        if (this.moveHeroMode) {
-            //передвижение
-            const nearestLocationId: number | undefined = this.locationsIdsForMoveHero.find((id) => location.id === id);
-            if (nearestLocationId) {
-                const currHero = this.currentHero();
-                if (currHero) {
-                    this.characterMove(currHero.id, location.id, true);
-                    this.clearMoveHeroMode();
-                    this.endHeroTurnWithCheckEndPoints();
+    handlerLocation(locationId: number) {
+        const location = this.getLocation(locationId);
+        if (location) {
+            if (this.moveHeroMode) {
+                //передвижение
+                const nearestLocationId: number | undefined = this.locationsIdsForMoveHero.find((id) => location.id === id);
+                if (nearestLocationId) {
+                    const currHero = this.currentHero();
+                    if (currHero) {
+                        this.characterMove(currHero.id, location.id, true);
+                        this.clearMoveHeroMode();
+                        this.endHeroTurnWithCheckEndPoints();
+                    }
                 }
+            } else if (location.isOpen) {
+                this.modalLocationGameObjects = {location, objs: this.getLocationGameObjects(location)};
             }
-        } else if (location.isOpen) {
-            this.modalLocationGameObjects = {location, objs: this.getLocationGameObjects(location)};
         }
+    }
+
+    handlerGameObject(gameObjId: number): void {
+        console.log(gameObjId, ' handlerGameObject');
+        // const gameObj = this.getGameObjectById(gameObjId);
+        // if (gameObj) {
+        //
+        // }
     }
 
     //список действий тек героя с текущим объектом

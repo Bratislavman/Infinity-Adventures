@@ -3,7 +3,7 @@
     <div class="main">
       <div class="interface">
         <div class="heroes">
-          <template v-for="hero in heroes" >
+          <template v-for="hero in heroes">
             <hero v-if="hero.hp > 0" :key="hero.id" :hero="hero" :currentHero="currentHero"/>
           </template>
         </div>
@@ -20,14 +20,13 @@
         </div>
       </div>
       <div class="zone">
-        <my-scroll ref="vs">
+        <my-scroll ref="vs" :ops="locationScrollerOps">
           <div class="locations">
             <div class="location-row" v-for="(locationRow, i) in locations" :key="'location-row'+i">
               <location
                   v-for="location in locationRow"
                   :location="location"
                   :key="'location'+location.id"
-                  :handlerLocation="handlerLocation"
               />
             </div>
           </div>
@@ -84,6 +83,11 @@ export default {
       heroes: [],
       currentHero: null,
       moveIcon: '',
+      locationScrollerOps: {
+        vuescroll: {
+          mode: 'slide'
+        }
+      }
     }
   },
   mounted() {
@@ -117,9 +121,6 @@ export default {
     },
     moveHero() {
       this.game.setMoveHeroMode();
-    },
-    handlerLocation(location) {
-      this.game.handlerLocation(location);
     },
     endTurn() {
       this.game.endHeroTurn();

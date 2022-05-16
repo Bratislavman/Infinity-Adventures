@@ -119,6 +119,10 @@ export class Game1 extends Game {
             new Guard(zone2.id, zone2Loc004.id);
         }
 
+        for (var i = 0; i < 10; i++) {
+            new Guard(zone1.id, zone1Loc001.id);
+        }
+
         //ГЕРОИ
         this.heroMauri = new Kitsune(zone1.id, zone1Loc001.id);
         this.heroDate = new Warrior(zone1.id, zone1Loc001.id);
