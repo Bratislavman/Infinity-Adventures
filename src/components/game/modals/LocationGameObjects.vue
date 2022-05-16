@@ -5,8 +5,10 @@
         <game-img :obj="obj"/>
         <div class="name">{{ name(obj) }}</div>
         <div class="actions">
-          <img v-if="haveGameObjectActions(obj)" class="action" src="@/assets/images/action.jpg" @click="showGameObjectActions(obj)"/>
-          <img v-if="checkCharacter(obj)" class="action info" src="@/assets/images/faq.jpg" @click="showGameObjectInfo(obj)"/>
+          <img v-if="haveGameObjectActions(obj)" class="action" src="@/assets/images/action.jpg"
+               @click="showGameObjectActions(obj)" :title="$t('actions')"/>
+          <img v-if="checkCharacter(obj)" class="action info" src="@/assets/images/faq.jpg"
+               @click="showGameObjectInfo(obj)" :title="$t('info')"/>
         </div>
       </div>
     </template>
@@ -62,7 +64,7 @@ export default {
     updateData() {
       const obj = this.game.modalLocationGameObjects;
       if (obj) {
-        const { objs, location} = obj;
+        const {objs, location} = obj;
         this.objs = objs;
         this.location = location;
       }
@@ -141,6 +143,7 @@ export default {
     border: 1px solid $green2;
     color: $green2;
   }
+
   &_enemy {
     border: 1px solid $red2;
     color: $red2;

@@ -4,7 +4,7 @@
     <div class="hero-data">
       <div class="hero__name">{{ $t(hero.name) }}</div>
       <div class="hero__chars">
-        <div v-for="(c, i) in chars" :key="i" :class="'hero-char ' + c.classes">
+        <div v-for="(c, i) in chars" :key="i" :class="'hero-char ' + c.classes" :title="$t(c.text)">
           <img class="hero-char__icon" :src="c.icon"/>
           <div class="hero-char__values">
             <div class="hero-char__value">{{ c.value }} / {{ c.valueMax }}</div>
@@ -28,19 +28,22 @@ export default {
           icon: require(`@/assets/images/hp.jpg`),
           value: this.hero.hp,
           valueMax: this.hero.getCharacteristic(HP_MAX),
-          classes: 'hero-char-hp'
+          classes: 'hero-char-hp',
+          text: 'hp'
         },
         {
           icon: require(`@/assets/images/action.jpg`),
           value: this.hero.actionsPoints,
           valueMax: this.hero.getCharacteristic(ACTIONS_POINTS_MAX),
-          classes: 'hero-char-ap'
+          classes: 'hero-char-ap',
+          text: 'actionsPoints'
         },
         {
           icon: require(`@/assets/images/hero_move.jpg`),
           value: this.hero.movePoints,
           valueMax: this.hero.getCharacteristic(MOVE_POINTS_MAX),
-          classes: 'hero-char-mp'
+          classes: 'hero-char-mp',
+          text: 'movePoints'
         },
       ]
     },

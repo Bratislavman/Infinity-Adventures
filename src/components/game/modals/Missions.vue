@@ -1,5 +1,5 @@
 <template>
-  <modal class="modal-missions" :title="$t('missions')" :visible="visible" :close="close">
+  <modal class="modal-missions" :title="$t('quests')" :visible="visible" :close="close">
     <div class="btns-container_left" v-for="(m,i) in missions" :key ="'mission'+i">
       <div class="text offset-right-1">{{ statusMission(m) }}</div>
       <div class="text">{{ $t(m.name) }}</div>

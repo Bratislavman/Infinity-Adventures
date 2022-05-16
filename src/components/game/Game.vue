@@ -8,10 +8,10 @@
           </template>
         </div>
         <div class="main-btns">
-          <div @click="endTurn" class="main-btn end-turn-btn">
+          <div @click="endTurn" class="main-btn end-turn-btn" :title="$t('end_turn')">
             <img class="icon" src="@/assets/images/end_turn.jpg"/>
           </div>
-          <div @click="openMenu" class="main-btn faq modal">
+          <div @click="openMenu" class="main-btn faq modal" :title="$t('faq')">
             <img class="icon" src="@/assets/images/faq.jpg"/>
           </div>
         </div>

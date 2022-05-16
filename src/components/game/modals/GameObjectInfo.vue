@@ -2,7 +2,9 @@
   <modal class="modal-game-object-info" title="" :visible="gameObject" :close="close">
     <template v-if="gameObject">
       <block-with-title :title="$t(gameObject.name)">
-        <div class="description text">{{ gameObject.description }}</div>
+        <div v-if="gameObject.description" class="btn" @click="showBio">
+          {{ $t('bio') }}
+        </div>
       </block-with-title>
 
       <template v-if="gameObject.isCharacter">
@@ -14,19 +16,19 @@
         </block-with-title>
 
         <block-with-title v-if="gameObject.abilities.length > 0" :title="$t('abilities')">
-          <div class="align_left color_white" v-for="(a,i) in gameObject.abilities" :key="'abilities'+i">
+          <div class="align_left color_white offset-top-1" v-for="(a,i) in gameObject.abilities" :key="'abilities'+i">
             {{ a.getDescription() }}
           </div>
         </block-with-title>
 
         <block-with-title v-if="gameObject.items.length > 0" :title="$t('items')">
-          <div class="align_left color_white" v-for="(i, ind) in gameObject.items" :key="'items'+ind">
+          <div class="align_left color_white offset-top-1" v-for="(i, ind) in gameObject.items" :key="'items'+ind">
             {{ i.getDescription() }}
           </div>
         </block-with-title>
 
         <block-with-title v-if="gameObject.effects.length > 0" :title="$t('effects')">
-          <div :class="effectClasses(e)" v-for="(e, i) in gameObject.effects" :key="'effects'+i">
+          <div :class="effectClasses(e)" v-for="(e, i) in gameObject.effects" :key="'effects'+i" class="offset-top-1">
             {{ e.getDescription() }}
           </div>
         </block-with-title>
@@ -69,6 +71,9 @@ export default {
     },
     close() {
       this.game.modalGameObjectInfo = null;
+    },
+    showBio() {
+      this.game.showBio(this.gameObject.id);
     },
   },
 }

@@ -660,11 +660,26 @@ export class Game {
         return null;
     }
 
+    showBio(objId: number) {
+        const obj = this.getGameObjectById(objId);
+        if (obj) {
+            const description = obj.getDescription();
+            if (description) {
+                this.modalInfo = {
+                    texts: [
+                        {title: obj.name, text: description}
+                    ]
+                };
+            }
+        }
+    }
+
     showGameObjectInfo(obj: GameObject): any {
         let modalGameObjectInfo: any = {
             name: obj.name,
             description: obj.getDescription(),
             isCharacter: false,
+            id: obj.id,
         };
         if (obj instanceof Character) {
             modalGameObjectInfo.characteristics = [

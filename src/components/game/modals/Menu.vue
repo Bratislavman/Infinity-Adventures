@@ -22,9 +22,9 @@ export default {
       modalMenu: false,
       options: [
         this.createOption('faq', this.showFaq),
-        this.createOption('missions', this.showMissions),
-        this.createOption('restart', this.restart),
-        this.createOption('change_game', this.changeLevel),
+        this.createOption('quests', this.showMissions),
+        this.createOption('restart_mission', this.restart),
+        this.createOption('change_mission', this.changeLevel),
       ],
     }
   },
