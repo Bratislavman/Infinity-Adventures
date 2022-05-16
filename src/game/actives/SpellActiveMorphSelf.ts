@@ -8,7 +8,7 @@ export class SpellActiveMorphSelf extends SpellActive {
     effectsClasses: any[] = [];
     effects: any[] = [];
 
-    constructor(name: string, ownerId: number, characterIconNew: string, reloadCounter= -1) {
+    constructor(name: string, ownerId: number, characterIconNew: string, reloadCounter= 0) {
         super(name, ownerId, reloadCounter);
         this.characterIconNew = characterIconNew;
     }

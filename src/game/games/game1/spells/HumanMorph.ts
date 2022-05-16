@@ -18,6 +18,10 @@ export class HumanMorph extends SpellActiveMorphSelf {
         }
     }
 
+    actionInterfacePostEffects() {
+        super.actionInterfacePostEffects(false);
+    }
+
     getDescription() {
         return spellPassiveInfo(vue.$t('human_morph.name'), vue.$t('human_morph.description'))
     }

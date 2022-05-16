@@ -9,7 +9,7 @@ export class Character extends GameObject {
     //фиксация того, что персонаж уже использовал все действия и перевидежния
     heroTurnEnd: boolean = false;
 
-    behaviorType: CharacterBehaviorTypes = CharacterBehaviorTypes.Combat;
+    behaviorType: CharacterBehaviorTypes = CharacterBehaviorTypes.Obj;
 
     constructor(name: string, hp: number, zoneId: number, locationId: number) {
         super(name, hp, zoneId, locationId);

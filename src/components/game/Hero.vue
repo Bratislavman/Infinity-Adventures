@@ -133,5 +133,6 @@ export default {
 
 .hero-current {
   opacity: 1;
+  border: 1px solid $yellow;
 }
 </style>

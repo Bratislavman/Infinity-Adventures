@@ -14,6 +14,7 @@ export class Warrior extends Character {
         this.activeSpells = [new Attack(this.id), new CraneStroke(this.id), new Punch(this.id)];
         this.passiveSpells = [new Luck(this.id)];
         this.items = [new Gun(this.id)];
+        this.initMoveAndActionPoints();
     }
 
     getDescription() {

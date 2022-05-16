@@ -66,6 +66,7 @@ export default {
           'location__object': true,
           'location__object_current-hero': currentHero.id === obj.id,
           'location__object_hero': obj.behaviorType === CharacterBehaviorTypes.Hero,
+          'location__object_enemy': obj.behaviorType === CharacterBehaviorTypes.Combat,
         }
       }
      return {'location__object': true };
@@ -117,6 +118,10 @@ export default {
 
     &_hero {
       border-color: $green2;
+    }
+
+    &_enemy {
+      border-color: $red2;
     }
 
     &_current-hero {

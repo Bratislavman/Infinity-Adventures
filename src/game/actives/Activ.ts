@@ -88,8 +88,8 @@ export class Activ {
 
     action(targetId: number) {
         const owner = this.getOwner() as Character;
-        //если нпс, то уменьшаем кол-во его действий тут
-        if (owner.behaviorType !== CharacterBehaviorTypes.Hero) {
+        //если враг, то уменьшаем кол-во его действий тут
+        if (owner.behaviorType === CharacterBehaviorTypes.Combat) {
             owner.actionsPoints--;
         }
         const target = Game.game.getGameObjectById(targetId);

@@ -71,7 +71,7 @@ export enum SpellPassiveType {
 }
 
 export enum CharacterBehaviorTypes {
-    Peaceful = 'peaceful',
+    Obj = 'obj', //объект для взаимодействия
     Combat = 'combat',
     Hero = 'hero',
 }

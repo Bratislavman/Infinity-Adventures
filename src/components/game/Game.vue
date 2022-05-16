@@ -223,7 +223,7 @@ export default {
 }
 
 .main {
-  height: calc(100% - 25%);
+  height: calc(100% - 35%);
   border: 1px solid black;
   box-sizing: border-box;
   border-radius: 10px;

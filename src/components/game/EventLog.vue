@@ -53,7 +53,7 @@ export default {
 </script>
 <style lang="scss">
 .event-log {
-  height: 23%;
+  height: 35%;
   border: 1px solid black;
   border-radius: 10px;
   text-align: left;
@@ -62,7 +62,7 @@ export default {
   background: $black1;
 
   &__message {
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     overflow-wrap: break-word;
   }
 
@@ -73,6 +73,7 @@ export default {
 
   &__text {
     color: $white;
+    font-size: 14px;
   }
 
 }

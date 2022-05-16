@@ -7,8 +7,6 @@ import {vue} from "@/main";
 import {HumanForm} from "@/game/games/game1/spells/HumanForm";
 import {ActionInterfaceType} from "@/constants/constants";
 import {GameObject} from "@/game/game-object/GameObject";
-import {Game1} from "@/game/games/game1/Game1";
-import {Game} from "@/game/Game";
 
 export class Kitsune extends Character {
     constructor(zoneId: number, locationId: number) {
