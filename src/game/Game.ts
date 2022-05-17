@@ -65,6 +65,7 @@ export class Game {
         this.description = description;
         this.background = background;
         this.gameTimerId = setInterval(() => this.watcherGameStatus(), 200);
+        this.addMessage(vue.$t('start_game.help'));
     }
 
     getMissions(): StatusGameCondition[] {
