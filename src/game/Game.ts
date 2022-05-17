@@ -27,10 +27,11 @@ import {MUTATION_GAME_EXIT} from "@/store/game";
 import {PreparationForBattle} from "@/game/games/game1/spells/PreparationForBattle";
 import {Equipment} from "@/game/actives/Equipment";
 import {EquipmentShooting} from "@/game/actives/EquipmentShooting";
-import {Activ} from "@/game/actives/Activ";
 
 export class Game {
     static game: Game;
+
+    centeringOnHero: boolean = true;
 
     gameVictoryText: string = '';
     statusGameConditionVictory: StatusGameCondition[] = [];
@@ -64,7 +65,7 @@ export class Game {
         this.name = name;
         this.description = description;
         this.background = background;
-        this.gameTimerId = setInterval(() => this.watcherGameStatus(), 200);
+        this.gameTimerId = setInterval(() => this.watcherGameStatus(), 1);
         this.addMessage(vue.$t('start_game.help'));
     }
 
@@ -187,6 +188,7 @@ export class Game {
         this.heroes = heroes;
         this.heroes.forEach(obj => obj.behaviorType = CharacterBehaviorTypes.Hero);
         this.currentHeroId = heroes[0].id;
+        heroes[0].startTurn();
     }
 
     addGameObjects(gameObjects: GameObject[]): void {

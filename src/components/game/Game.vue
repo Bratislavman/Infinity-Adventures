@@ -82,22 +82,20 @@ export default {
       moveIcon: '',
       locationScrollerOps: {
         vuescroll: {
-          mode: 'slide'
+          mode: 'native'
         }
       }
     }
-  },
-  mounted() {
-    this.scrollIntoView();
   },
   methods: {
     openMenu() {
       this.game.modalMenu = true;
     },
     scrollIntoView() {
-      setTimeout(() => {
-        if (this.$refs["vs"]) {
+      this.$nextTick(() => {
+        if (this.game.centeringOnHero) {
           this.$refs["vs"].scrollIntoView("#location" + this.currentHero.locationId, 0);
+          this.game.centeringOnHero = false;
         }
       });
     },

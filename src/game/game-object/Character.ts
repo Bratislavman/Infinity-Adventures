@@ -58,6 +58,8 @@ export class Character extends GameObject {
         if (this.behaviorType === CharacterBehaviorTypes.Hero) {
             if (haveStun) {
                 Game.game.endHeroTurn();
+            } else {
+                Game.game.centeringOnHero = true;
             }
         } else {
             if (!haveStun) {
