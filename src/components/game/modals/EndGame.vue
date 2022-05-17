@@ -5,8 +5,8 @@
         {{ $t(modalEndGame.textKey) }}
       </div>
       <div class="btns-container_center offset-top-1">
-        <button class="btn offset-right-1" @click="restart">{{ $t('restart') }}</button>
-        <button class="btn" @click="changeLevel">{{ $t('change_game') }}</button>
+        <button class="btn offset-right-1" @click="restart">{{ $t('restart_mission') }}</button>
+        <button class="btn" @click="changeLevel">{{ $t('change_mission') }}</button>
       </div>
     </template>
   </modal>

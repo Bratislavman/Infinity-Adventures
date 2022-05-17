@@ -1,10 +1,6 @@
 import {Game} from "@/game/Game";
 import {Character} from "@/game/game-object/Character";
-import {
-    ActionInterfaceTypeWithActiv,
-    CharacterBehaviorTypes,
-    TextType
-} from "@/constants/constants";
+import {ActionInterfaceTypeWithActiv, ActivTargetType, CharacterBehaviorTypes, TextType} from "@/constants/constants";
 import {vue} from "@/main";
 
 //родитель для предметов и активных способностей
@@ -15,11 +11,18 @@ export class Activ {
 
     numberTargets: number;
 
+    targetType: ActivTargetType = ActivTargetType.Enemy;
+
     constructor(name: string, ownerId: number, numberTargets: number = 1) {
         this.name = name;
         this.ownerId = ownerId;
         this.numberTargets = numberTargets;
+        this.init();
         Game.game.addSpellOrItemObject(this);
+    }
+
+    init() {
+        this.targetType = ActivTargetType.Enemy;
     }
 
     getDescription(): TextType {
@@ -49,7 +52,8 @@ export class Activ {
                     if (target?.locationId) {
                         const location = Game.game.getLocation(target.locationId);
                         if (location) {
-                            const objs = Game.game.getLocationCharacters(location);
+                            const objsType = this.targetType === ActivTargetType.Enemy ? CharacterBehaviorTypes.Combat : CharacterBehaviorTypes.Hero;
+                            const objs = Game.game.getLocationCharacters(location, objsType);
                             if (objs) {
                                 Game.game.modalSelectTargets = {
                                     action: (targetId2: number) => this.action(targetId2),

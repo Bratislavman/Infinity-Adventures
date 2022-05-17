@@ -1,5 +1,5 @@
 import {SpellActive} from "@/game/actives/SpellActive";
-import {ActionInterfaceType} from "@/constants/constants";
+import {ActionInterfaceType, ActivTargetType} from "@/constants/constants";
 
 export class SpellActiveMorphSelf extends SpellActive {
     characterIconNew: string = '';
@@ -11,6 +11,10 @@ export class SpellActiveMorphSelf extends SpellActive {
     constructor(name: string, ownerId: number, characterIconNew: string, reloadCounter= 0) {
         super(name, ownerId, reloadCounter);
         this.characterIconNew = characterIconNew;
+    }
+
+    init() {
+        this.targetType = ActivTargetType.CurrentHero;
     }
 
     initForAction(action: ActionInterfaceType) {

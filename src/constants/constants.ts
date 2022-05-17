@@ -15,6 +15,13 @@ export enum StatusGameConditionStatus {
     Success = 'Success',
 }
 
+export enum ActivTargetType {
+    CurrentHero = 'CurrentHero',
+    Hero = 'Hero',
+    Enemy = 'Enemy',
+    None = 'None',
+}
+
 export interface ActionInterfaceType {
     name: string,
     action: Function, //само действие

@@ -10,12 +10,16 @@ import {
     ActionInterfaceType,
     ACTIONS_POINTS_MAX,
     ActionWithChanceType,
+    ActivTargetType,
     CharacterBehaviorTypes,
     EquipmentActivType,
     FunctionOrNullType,
-    HP_MAX, ModalInfoType,
+    HP_MAX,
+    ModalInfoType,
     MOVE_POINTS_MAX,
-    SpellOrItemType, StatusGameCondition, StatusGameConditionStatus,
+    SpellOrItemType,
+    StatusGameCondition,
+    StatusGameConditionStatus,
 } from "@/constants/constants";
 import {Stun} from "@/game/games/game1/spells/Stun";
 // @ts-ignore
@@ -23,6 +27,7 @@ import {MUTATION_GAME_EXIT} from "@/store/game";
 import {PreparationForBattle} from "@/game/games/game1/spells/PreparationForBattle";
 import {Equipment} from "@/game/actives/Equipment";
 import {EquipmentShooting} from "@/game/actives/EquipmentShooting";
+import {Activ} from "@/game/actives/Activ";
 
 export class Game {
     static game: Game;
@@ -504,17 +509,35 @@ export class Game {
                 return [];
             }
 
+            //экшены от объектк
             let actions = obj.actions();
 
             if (obj instanceof Character) {
-                const spellsHeroActions = currentHero.activeSpells.map(spell => {
+                const activeSpellsHero = currentHero.activeSpells.filter(spell => {
+                    return (
+                        (obj.behaviorType === CharacterBehaviorTypes.Hero && spell.targetType === ActivTargetType.Hero)
+                        ||
+                        (obj.behaviorType === CharacterBehaviorTypes.Combat && spell.targetType === ActivTargetType.Enemy)
+                        ||
+                        (obj.id === currentHero.id && spell.targetType === ActivTargetType.CurrentHero)
+                    );
+                });
+                const spellsHeroActions = activeSpellsHero.map(spell => {
                     return spell.actionForInterface(obj.id);
                 });
 
-                const itemsHeroActive = currentHero.items.filter(item => {
-                    return item instanceof Equipment || item instanceof EquipmentShooting;
+                const itemsHeroEquipment = currentHero.items.filter(item => {
+                    return (
+                        (item instanceof Equipment || item instanceof EquipmentShooting)
+                        &&
+                        (
+                            (obj.behaviorType === CharacterBehaviorTypes.Hero && item.targetType === ActivTargetType.Hero)
+                            ||
+                            (obj.behaviorType === CharacterBehaviorTypes.Combat && item.targetType === ActivTargetType.Enemy)
+                        )
+                    );
                 });
-                const itemsHeroActions = itemsHeroActive.map(item => {
+                const itemsHeroActions = itemsHeroEquipment.map(item => {
                     return (item as EquipmentActivType).actionForInterface(obj.id);
                 });
 
