@@ -1,7 +1,7 @@
 <template>
   <modal class="modal-actions" :title="$t('actions')" :visible="visible" :close="close">
     <template v-if="visible">
-      <div v-for="obj in actions" :class="classes(obj)" @click="click(obj)">
+      <div v-for="obj in actions" :class="classes(obj)" @click="click(obj)" :title="getDescription(obj)">
         {{ name(obj) }}
       </div>
     </template>
@@ -11,7 +11,7 @@
 <script>
 import Modal from "@/components/game/modals/Modal";
 import {GET_GAME} from "@/store/game.js";
-import {SpellActiveMorphSelf} from "@/game/actives/SpellActiveMorphSelf";
+import {Activ} from "@/game/actives/Activ";
 
 export default {
   name: 'ModalActionsList',
@@ -45,6 +45,15 @@ export default {
   methods: {
     updateData() {
       this.actions = this.game.modalActionsList;
+    },
+    getDescription(obj) {
+      if (obj.activ instanceof Activ) {
+        const descr = obj.activ.getDescription();
+        if (descr) {
+          return descr;
+        }
+      }
+      return '';
     },
     name(obj) {
       const name = this.$t(obj.name);

@@ -16,6 +16,10 @@ export class Sasuke extends GameObject {
         this.icon = 'game1/npc/sasuke.jpg';
     }
 
+    getDescription() {
+        return vue.$t('story1.sasuke.description');
+    }
+
     actions(): ActionInterfaceType[] {
         const actions: ActionInterfaceType[] = [];
         const currHero = Game.game.currentHero();

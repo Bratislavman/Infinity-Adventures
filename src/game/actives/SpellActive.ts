@@ -21,6 +21,7 @@ export class SpellActive extends Activ {
     }
 
     initForAction(action: ActionInterfaceType) {
+        super.initForAction(action);
         action.reload = this.reload;
         action.disabled = this.reload > 0;
     }

@@ -7,7 +7,7 @@
         <div class="actions">
           <img v-if="haveGameObjectActions(obj)" class="action" src="@/assets/images/action.jpg"
                @click="showGameObjectActions(obj)" :title="$t('actions')"/>
-          <img v-if="checkCharacter(obj)" class="action info" src="@/assets/images/faq.jpg"
+          <img v-if="getDescription(obj)" class="action info" src="@/assets/images/faq.jpg"
                @click="showGameObjectInfo(obj)" :title="$t('info')"/>
         </div>
       </div>
@@ -81,6 +81,9 @@ export default {
     },
     checkCharacter(obj) {
       return obj instanceof Character;
+    },
+    getDescription(obj) {
+      return obj.getDescription();
     },
     showGameObjectActions(obj) {
       this.game.modalActionsList = this.game.getHeroActionsForObject(obj);

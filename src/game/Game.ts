@@ -59,7 +59,7 @@ export class Game {
         this.name = name;
         this.description = description;
         this.background = background;
-        this.gameTimerId = setInterval(() => this.watcherGameStatus(), 500);
+        this.gameTimerId = setInterval(() => this.watcherGameStatus(), 200);
     }
 
     getMissions(): StatusGameCondition[] {
@@ -675,13 +675,14 @@ export class Game {
     }
 
     showGameObjectInfo(obj: GameObject): any {
-        let modalGameObjectInfo: any = {
-            name: obj.name,
-            description: obj.getDescription(),
-            isCharacter: false,
-            id: obj.id,
-        };
         if (obj instanceof Character) {
+            let modalGameObjectInfo: any = {
+                name: obj.name,
+                description: obj.getDescription(),
+                isCharacter: false,
+                id: obj.id,
+            };
+
             modalGameObjectInfo.characteristics = [
                 obj.getCharacteristicForInterface(HP_MAX),
                 obj.getCharacteristicForInterface(MOVE_POINTS_MAX),
@@ -692,8 +693,20 @@ export class Game {
             modalGameObjectInfo.items = obj.items;
 
             modalGameObjectInfo.isCharacter = true;
+
+            this.modalGameObjectInfo = modalGameObjectInfo;
+        } else {
+            const description = obj.getDescription();
+            if (description) {
+                this.modalInfo = {
+                    texts: [
+                        {title: obj.name, text: description}
+                    ]
+                };
+            } else {
+                this.modalInfo = null;
+            }
         }
-        this.modalGameObjectInfo = modalGameObjectInfo;
     }
 
     getModalInfo(): ModalInfoType {

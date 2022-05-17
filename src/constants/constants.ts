@@ -23,8 +23,10 @@ export interface ActionInterfaceType {
     disabled?: boolean,
     morphCanOff?: boolean,
     shellCounter?: number,
+    activ?: Activ,
 }
 
+//для действия, у которого точно должна быть конкретная цель-объект
 export interface ActionInterfaceTypeWithActiv extends ActionInterfaceType {
     targetId: number;
 }

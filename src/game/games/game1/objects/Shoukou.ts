@@ -12,6 +12,10 @@ export class Shoukou extends GameObject {
         this.icon = 'game1/npc/shoukou.jpg';
     }
 
+    getDescription() {
+        return vue.$t('story1.shoukou.description');
+    }
+
     actions(): ActionInterfaceType[] {
         const actions: ActionInterfaceType[] = [];
         const currHero = Game.game.currentHero();

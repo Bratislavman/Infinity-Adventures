@@ -3,7 +3,6 @@ import {spellActiveInfo} from "@/helpers/game";
 import {SpellActive} from "@/game/actives/SpellActive";
 import {Game} from "@/game/Game";
 import {ActionInterfaceType} from "@/constants/constants";
-import {HumanForm} from "@/game/games/game1/spells/HumanForm";
 import {Kitsune} from "@/game/games/game1/heroes/Kitsune";
 
 export class Health extends SpellActive {
@@ -12,7 +11,7 @@ export class Health extends SpellActive {
     }
 
     getDescription() {
-        return spellActiveInfo(vue.$t('health.name'), vue.$t('health.description'));
+        return spellActiveInfo(vue.$t('health.name'), vue.$t('health.description'), this.reload);
     }
 
     initForAction(action: ActionInterfaceType) {

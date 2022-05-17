@@ -1,7 +1,6 @@
 import {Activ} from "@/game/actives/Activ";
 import {EquipmentShell} from "@/game/actives/EquipmentShell";
-import {ActionInterfaceType, EquipmentType} from "@/constants/constants";
-import {Game} from "@/game/Game";
+import {EquipmentType} from "@/constants/constants";
 
 //оружие с боеприпасом (не тратят действие)
 export class EquipmentShooting extends Activ {
@@ -38,6 +37,7 @@ export class EquipmentShooting extends Activ {
     }
 
     initForAction(action: any) {
+        super.initForAction(action);
         action.disabled = this.getShellCount() <= 0;
     }
 

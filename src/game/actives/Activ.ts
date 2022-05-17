@@ -1,7 +1,6 @@
 import {Game} from "@/game/Game";
 import {Character} from "@/game/game-object/Character";
 import {
-    ActionInterfaceType,
     ActionInterfaceTypeWithActiv,
     CharacterBehaviorTypes,
     TextType
@@ -33,7 +32,7 @@ export class Activ {
 
     //определение доп опций для действия в интерфейсе
     initForAction(action: any) {
-
+        action.activ = this;
     }
 
     //для игрока в интерфейсе действий

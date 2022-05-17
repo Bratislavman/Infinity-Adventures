@@ -26,18 +26,18 @@ export const randomArrayElement = (arr: any[]) => {
 
 
 //title description не стринг, т.к они могут быть с доп значениями, то есть должнны формироваться заранее
-export const entityInfo = (keyReload: string, title: TextType, description: TextType, counter: number = 0) => {
+export const activInfo = (keyReload: string, title: TextType, description: TextType, counter: number = 0) => {
     if (counter > 0) {
         return vue.$t(keyReload, {title, description, counter});
     }
     return vue.$t('title_description', {title, description});
 }
 export const spellActiveInfo = (title: TextType, description: TextType, counter: number = 0) => {
-    return entityInfo('title_description_for_active_spell', title, description, counter);
+    return activInfo('title_description_for_active_spell', title, description, counter);
 }
 export const spellPassiveInfo = (title: TextType, description: TextType, counter: number = 0) => {
-    return entityInfo('title_description_for_passive_spell', title, description, counter);
+    return activInfo('title_description_for_passive_spell', title, description, counter);
 }
 export const itemInfo = (title: TextType, description: TextType, counter: number = 0) => {
-    return entityInfo('title_description_for_item', title, description, counter);
+    return activInfo('title_description_for_item', title, description, counter);
 }
