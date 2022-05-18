@@ -35,7 +35,7 @@ export default {
     }
   },
   mounted() {
-    this.timeId = setInterval(() => this.timer(), 1);
+    this.timeId = setInterval(() => this.timer(), 1000);
   },
   computed: {
     timeFormed() {
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     timer() {
-      this.time++;
+      this.time += 1000;
     }
   }
 }
@@ -62,7 +62,7 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  position: relative;;
+  position: relative;
 }
 
 .timer {

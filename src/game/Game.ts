@@ -108,6 +108,8 @@ export class Game {
     watcherGameStatus() {
         try {
             if (this.statusGameConditionVictory.length > 0 && this.statusGameConditionDefeat.length > 0) {
+                this.watcherGameStatusAddQuestions();
+
                 this.statusGameConditionDefeat.find(obj => {
                     if (obj.status === StatusGameConditionStatus.Success) {
                         throw false;
@@ -115,12 +117,11 @@ export class Game {
                 })
 
                 const successQuestsCount = this.statusGameConditionVictory.reduce((prev, obj): number => {
+
                     return obj.status === StatusGameConditionStatus.Success ? prev + 1 : prev;
                 }, 0);
                 if (successQuestsCount === this.statusGameConditionVictory.length) {
                     throw true;
-                } else {
-                    this.watcherGameStatusAddQuestions();
                 }
 
                 this.collectHeroNearestLocationsIds();

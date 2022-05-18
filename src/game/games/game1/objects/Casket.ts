@@ -35,10 +35,7 @@ export class Casket extends GameObject {
             if (mauri) {
                 Game.game.addMessage(vue.$t('shoukou_clear_magick'));
                 mauri.removeItemByClass(MagickKey);
-                game1.statusGameConditionVictory.push(
-                    game1.createStatusGameCondition(ConditionVictory.EscapeDate),
-                    game1.createStatusGameCondition(ConditionVictory.EscapeMauri),
-                );
+                Game.game.statusGameConditionDone(ConditionVictory.ShoukouMortal);
                 this.remove();
             }
         })

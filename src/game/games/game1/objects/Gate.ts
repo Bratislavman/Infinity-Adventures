@@ -74,11 +74,11 @@ export class Gate extends GameObject {
 
     exit() {
         Game.game.heroAction(() => {
-            // если дате получил по морде и бесмертие разрушено, то выплняем квест побега(для дате и кицен отдельно)
             const currHero = Game.game.currentHero();
             if (currHero) {
                 this.move(hero_out_castle);
                 const game1 = Game.game as Game1;
+                // если дате получил по морде и бесмертие разрушено, то выплняем квест побега(для дате и кицен отдельно)
                 if (game1.checkCompleteQuestImmortalAndSasukePunch()) {
                     if (currHero instanceof Kitsune) {
                         game1.statusGameConditionDone(ConditionVictory.EscapeMauri)
