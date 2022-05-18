@@ -4,6 +4,7 @@ import {SpellActive} from "@/game/actives/SpellActive";
 import {Game} from "@/game/Game";
 import {Sasuke} from "@/game/games/game1/npc/Sasuke";
 import {ConditionVictory} from "@/game/games/game1/constants";
+import {JadeGuard} from "@/game/games/game1/npc/JadeGuard";
 
 export class Punch extends SpellActive {
     constructor(ownerId: number) {
@@ -16,12 +17,15 @@ export class Punch extends SpellActive {
 
     action(targetId: number) {
         super.action(targetId);
-        Game.game.attack(targetId, 1);
-        Game.game.stun(targetId, 2);
-
-        const sasuke = Game.game.getGameObjectById(targetId);
-        if (sasuke instanceof Sasuke) {
-            Game.game.statusGameConditionDone(ConditionVictory.SasukePunch);
+        const obj = Game.game.getGameObjectById(targetId);
+        if (obj) {
+            JadeGuard.jadeGuardShieldCheck(obj, () => {
+                Game.game.attack(targetId, 1);
+                Game.game.stun(targetId, 2);
+                if (obj instanceof Sasuke) {
+                    Game.game.statusGameConditionDone(ConditionVictory.SasukePunch);
+                }
+            })
         }
     }
 }

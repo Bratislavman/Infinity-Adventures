@@ -3,8 +3,8 @@ import {Game} from "@/game/Game";
 import {vue} from "@/main";
 import {spellActiveInfo} from "@/helpers/game";
 import {ActionInterfaceType} from "@/constants/constants";
-import {HumanForm} from "@/game/games/game1/spells/HumanForm";
 import {Kitsune} from "@/game/games/game1/heroes/Kitsune";
+import {JadeGuard} from "@/game/games/game1/npc/JadeGuard";
 
 export class Illusion extends SpellActive {
     constructor(ownerId: number) {
@@ -25,6 +25,12 @@ export class Illusion extends SpellActive {
 
     action(targetId: number) {
         super.action(targetId);
-        Game.game.stun(targetId, 1);
+
+        const obj = Game.game.getGameObjectById(targetId);
+        if (obj) {
+            JadeGuard.jadeGuardShieldCheck(obj, () => {
+                Game.game.stun(targetId, 1);
+            });
+        }
     }
 }

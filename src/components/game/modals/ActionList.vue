@@ -90,10 +90,11 @@ export default {
 
   .content {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .action {
-
+    margin-bottom: 10px;
   }
 }
 </style>
