@@ -139,11 +139,16 @@ export class Game1 extends Game {
     enemiesForAttackNPC(enemies: Character[]): Character[] {
         const enemiesForAttack = super.enemiesForAttackNPC(enemies);
         enemies.forEach(obj => {
-            if (obj instanceof Kitsune && Game.game.chanceCheck(60)) {
-                Game.game.addMessage(vue.$t('kitsune_charm.charm'));
-            } else {
-                enemiesForAttack.push(obj);
+            if (obj instanceof Kitsune) {
+                if (obj.isHuman()) {
+                    return;
+                }
+                if (Game.game.chanceCheck(60)) {
+                    Game.game.addMessage(vue.$t('kitsune_charm.charm'));
+                    return;
+                }
             }
+            enemiesForAttack.push(obj);
         });
         return enemiesForAttack;
     }
@@ -186,6 +191,10 @@ export class Game1 extends Game {
             return true;
         }
         return false;
+    }
+
+    enemiesCatchHeroCheck(obj: GameObject): boolean {
+        return !(obj instanceof Kitsune && obj.isHuman());
     }
 
     eventsCharacterMoveAfter(obj: GameObject) {

@@ -285,6 +285,10 @@ export class Game {
         return true;
     }
 
+    enemiesCatchHeroCheck(obj: GameObject): boolean {
+        return true;
+    }
+
     characterMove(targetId: number, locationId: number, spendingPoints: boolean = false) {
         const obj = this.gameObjects.find(obj => obj.id === targetId && obj instanceof Character);
 
@@ -300,15 +304,18 @@ export class Game {
             if (location) {
                 let move = true;
 
-                //если герой при врагах, то проверяем, сможет ли он сбежать
-                if (this.haveHeroEnemiesInLocation(obj.id)) {
-                    move = this.escapeHeroCheck(obj);
-                    if (move) {
-                        this.addMessage(vue.$t('escape_success', {hero: vue.$t(obj.name)}))
-                    } else {
-                        this.addMessage(vue.$t('escape_fail', {hero: vue.$t(obj.name)}))
+                if (this.enemiesCatchHeroCheck(obj)) {
+                    //если герой при врагах, то проверяем, сможет ли он сбежать
+                    if (this.haveHeroEnemiesInLocation(obj.id)) {
+                        move = this.escapeHeroCheck(obj);
+                        if (move) {
+                            this.addMessage(vue.$t('escape_success', {hero: vue.$t(obj.name)}))
+                        } else {
+                            this.addMessage(vue.$t('escape_fail', {hero: vue.$t(obj.name)}))
+                        }
                     }
                 }
+
 
                 if (move) {
                     obj.locationId = locationId;
