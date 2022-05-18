@@ -28,6 +28,7 @@ import {PreparationForBattle} from "@/game/games/game1/spells/PreparationForBatt
 import {Equipment} from "@/game/actives/Equipment";
 import {EquipmentShooting} from "@/game/actives/EquipmentShooting";
 
+//151ч
 export class Game {
     static game: Game;
 

@@ -21,6 +21,7 @@ import {JadeGuard} from "@/game/games/game1/npc/JadeGuard";
 import {Casket} from "@/game/games/game1/objects/Casket";
 import {Shoukou} from "@/game/games/game1/objects/Shoukou";
 
+//6ч
 export class Game1 extends Game {
     haveQuestsEscape: boolean = false;
     zoneIdCastle: number = 0;
