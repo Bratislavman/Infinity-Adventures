@@ -479,7 +479,18 @@ export class Game {
         const location = this.getLocation(locationId);
         if (location) {
             if (location.isOpen) {
-                this.modalLocationGameObjects = {location, objs: this.getLocationGameObjects(location)};
+                const objs = this.getLocationGameObjects(location);
+                if (objs.length > 0) {
+                    this.modalLocationGameObjects = {location, objs};
+                } else {
+                    this.modalInfo = {
+                        title: vue.$t('location.open_but_empty.title'),
+                        texts: [
+                            {text: 'location.open_but_empty.text'}
+                        ]
+                    };
+                }
+
             } else {
                 let title = 'location.not_open.far.title';
                 let text = 'location.not_open.far.text';
