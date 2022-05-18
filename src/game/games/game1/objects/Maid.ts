@@ -5,7 +5,7 @@ import {Kitsune} from "@/game/games/game1/heroes/Kitsune";
 import {vue} from "@/main";
 
 export class Maid extends GameObject {
-    static maidSecret: Boolean = false;
+    maidSecret: Boolean = false;
     maidTrust: Boolean = false;
 
     constructor(zoneId: number, locationId: number) {
@@ -18,7 +18,7 @@ export class Maid extends GameObject {
         const currHero = Game.game.currentHero();
 
         if (currHero) {
-            if (Game.game.haveHeroEnemiesInLocation(currHero.id) || Maid.maidSecret) {
+            if (Game.game.haveHeroEnemiesInLocation(currHero.id) || this.maidSecret) {
                 return actions;
             }
 
@@ -38,7 +38,7 @@ export class Maid extends GameObject {
         Game.game.heroAction(() => {
             if (this.maidTrust) {
                 Game.game.addMessage(vue.$t('talk_maid2_text'));
-                Maid.maidSecret = true;
+                this.maidSecret = true;
             } else {
                 this.maidTrust = true;
                 Game.game.addMessage(vue.$t('talk_maid1_text'));

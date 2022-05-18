@@ -32,6 +32,7 @@ export class Game1 extends Game {
 
     heroMauri: Kitsune | null = null;
     heroDate: Warrior | null = null;
+    maid: Maid | null = null;
 
     constructor() {
         super('story1.name', 'story1.description', 'game1/background.jpg');
@@ -104,7 +105,7 @@ export class Game1 extends Game {
 
         new Gunsmith(zone2.id, zone2Loc011.id);
 
-        new Maid(zone2.id, zone2Loc013.id);
+        this.maid = new Maid(zone2.id, zone2Loc013.id);
         new ChefsTable(zone2.id, zone2Loc013.id);
 
         new SasukeObj(zone2.id, zone2Loc015.id);

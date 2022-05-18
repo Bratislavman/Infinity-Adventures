@@ -3,9 +3,7 @@ import {Game} from "@/game/Game";
 import {ActionInterfaceType} from "@/constants/constants";
 import {Kitsune} from "@/game/games/game1/heroes/Kitsune";
 import {vue} from "@/main";
-import {Maid} from "@/game/games/game1/objects/Maid";
 import {Game1} from "@/game/games/game1/Game1";
-import {GunShell} from "@/game/games/game1/items/GunShell";
 import {WonderfulWine} from "@/game/games/game1/items/WonderfulWine";
 
 export class ChefsTable extends GameObject {
@@ -25,7 +23,8 @@ export class ChefsTable extends GameObject {
                 return actions;
             }
 
-            if (this.haveVine && Maid.maidSecret && currHero instanceof Kitsune) {
+            const maid = (Game.game as Game1).maid;
+            if (this.haveVine && maid && maid.maidSecret && currHero instanceof Kitsune) {
                 actions.push({
                     name: 'take_vine',
                     action: () => this.takeVine(),
