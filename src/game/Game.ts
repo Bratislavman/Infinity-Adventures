@@ -28,6 +28,51 @@ import {PreparationForBattle} from "@/game/games/game1/spells/PreparationForBatt
 import {Equipment} from "@/game/actives/Equipment";
 import {EquipmentShooting} from "@/game/actives/EquipmentShooting";
 
+import { JsonObject, JsonProperty, JsonSerializer, throwError } from 'typescript-json-serializer';
+
+
+export enum Gender {
+    Female,
+    Male,
+    Other
+}
+
+// @JsonObject()
+// export class LivingBeing {
+//
+//     /** The living being id (PK) */
+//     @JsonProperty() id: number;
+// }
+
+@JsonObject()
+export class Animal {
+    constructor (
+        @JsonProperty({required: true}) public id: number,
+    ) {
+        this.id = id;
+    }
+
+    say() {
+        console.log(this.id, 'animal id');
+    }
+}
+
+
+@JsonObject()
+export class Human {
+    constructor (
+        @JsonProperty() public gender: Gender,
+        @JsonProperty({required: true}) public id: number,
+        @JsonProperty({ type: Human }) public friends: Human[] ,
+        @JsonProperty({ type:Animal }) public animals: Animal[] ,
+    ) {
+        this.friends = friends;
+        this.gender = gender;
+         this.id = id;
+        this.animals = animals;
+    }
+}
+
 //151ч
 export class Game {
     static game: Game;
@@ -68,6 +113,39 @@ export class Game {
         this.background = background;
         this.gameTimerId = setInterval(() => this.watcherGameStatus(), 1);
         this.addMessage(vue.$t('start_game.help'));
+
+
+        const x0 = new Animal(3);
+        const x = new Human(Gender.Male,  1,[], [x0]);
+        const x2 = new Human(Gender.Male, 2, [], [x0]);
+        const x3 = new Human(Gender.Female, 3, [], []);
+        x.friends = [x2, x3];
+        x3.friends = [x2];
+
+
+        const defaultSerializer = new JsonSerializer();
+
+
+
+        const data = defaultSerializer.serialize(x);
+
+
+        if (data) {
+
+            const xS = JSON.stringify(data);
+            const xO = JSON.parse(xS);
+            const xxx =       defaultSerializer.deserialize(xO, Human) as Human;
+            console.log(
+                xS,
+                xO,
+                data,
+                xxx
+            );
+
+            xxx.animals[0].say();
+
+        }
+
     }
 
     getMissions(): StatusGameCondition[] {
